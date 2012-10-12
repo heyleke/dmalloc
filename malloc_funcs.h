@@ -263,6 +263,10 @@ int	_dmalloc_examine(const char *file, const int line,
 			 char **file_p, unsigned int *line_p,
 			 DMALLOC_PNT *ret_attr_p);
 
+extern
+DMALLOC_PNT	_dmalloc_getra(const DMALLOC_PNT pnt);
+
+
 /*
  * Register an allocation tracking function which will be called each
  * time an allocation occurs.  Pass in NULL to disable.

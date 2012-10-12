@@ -1876,6 +1876,39 @@ int	dmalloc_examine(const DMALLOC_PNT pnt, DMALLOC_SIZE *user_size_p,
   }
 }
 
+DMALLOC_PNT	dmalloc_getra(const DMALLOC_PNT pnt)
+{
+  int read_info_ret;
+  DMALLOC_PNT ret;
+  unsigned int	user_size_map, tot_size_map;
+  unsigned long	*loc_seen_p;
+  
+  /*
+   * NOTE: we use the size maps because we use a unsigned int size
+   * type internally but may use some size_t externally.
+   */
+  
+  /* need to check the heap here since we are geting info from it below */
+  if (! dmalloc_in(DMALLOC_DEFAULT_FILE, DMALLOC_DEFAULT_LINE, 1)) {
+    return NULL;
+  }
+  
+  /* NOTE: we do not need the alloc-size info */
+  read_info_ret = _dmalloc_chunk_read_info(pnt, "dmalloc_examine", &user_size_map,
+				 &tot_size_map, NULL, NULL, &ret,
+				 &loc_seen_p, NULL,  NULL, NULL);
+  
+  dmalloc_out();
+  
+  if (read_info_ret) {
+    return ret;
+  }
+  else
+  {
+	return NULL;
+  }
+}
+
 /*
  * int dmalloc_tag_pnt
  *
