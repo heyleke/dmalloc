@@ -146,6 +146,10 @@ changing to use __builtin_
 
 #endif /* __i386 */
 
+#if __x86_64__ && __GNUC__ > 3
+#define GET_RET_ADDR(file)	((file)=(char *)__builtin_return_address(0)
+#endif /* __x86_64__ */
+
 /*************************************/
 
 /*
