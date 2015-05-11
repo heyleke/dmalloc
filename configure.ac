@@ -132,7 +132,7 @@ AC_SUBST(shlibdir)
 
 # see how the local system builds shared libraries
 AC_MSG_CHECKING([shared library link args])
-AC_COMPILE_IFELSE([ int foo(int val) { return val + 1; } ],[
+AC_COMPILE_IFELSE([AC_LANG_SOURCE([[ int foo(int val) { return val + 1; } ]])],[
 	# so now we try to create an archive from the compiled .o file
 	(ar cr conftest.a conftest.o) 2>&5
 	# see which shared-library ld commands work
@@ -353,19 +353,19 @@ AC_CHECK_FUNCS(getpagesize)
 AC_MSG_CHECKING([basic-block size])
 ac_cv_page_size=0
 if test $ac_cv_page_size = 0; then
-   AC_RUN_IFELSE([main() { if (getpagesize()<=2048) exit(0); else exit(1); }],
+   AC_RUN_IFELSE([AC_LANG_SOURCE([[main() { if (getpagesize()<=2048) exit(0); else exit(1); }]])],
 	[ ac_cv_page_size=11 ] )
 fi
 if test $ac_cv_page_size = 0; then
-   AC_RUN_IFELSE([main() { if (getpagesize()<=4096) exit(0); else exit(1); }],
+   AC_RUN_IFELSE([AC_LANG_SOURCE([[main() { if (getpagesize()<=4096) exit(0); else exit(1); }]])],
 	[ ac_cv_page_size=12 ] )
 fi
 if test $ac_cv_page_size = 0; then
-   AC_RUN_IFELSE([main() { if (getpagesize()<=8192) exit(0); else exit(1); }],
+   AC_RUN_IFELSE([AC_LANG_SOURCE([[main() { if (getpagesize()<=8192) exit(0); else exit(1); }]])],
 	[ ac_cv_page_size=13 ] )
 fi
 if test $ac_cv_page_size = 0; then
-   AC_RUN_IFELSE([main() { if (getpagesize()<=16384) exit(0); else exit(1); }],
+   AC_RUN_IFELSE([AC_LANG_SOURCE([[main() { if (getpagesize()<=16384) exit(0); else exit(1); }]])],
 	[ ac_cv_page_size=14 ] )
 fi
 if test $ac_cv_page_size = 0; then
@@ -393,7 +393,7 @@ AC_MSG_RESULT([$ac_cv_data_align])
 #
 AC_CHECK_FUNCS(abort)
 AC_MSG_CHECKING([abort safe])
-AC_RUN_IFELSE([[
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
 static int main_b = 0;
 static char heap_mem[102400], *heap_p = heap_mem;
 free () { if (main_b) _exit(0); }
@@ -424,7 +424,7 @@ char *realloc (char *old_pnt, int new_size) {
   return start;
 }
 main() { main_b = 1; abort(); _exit(1); }
-]],
+]])],
 # NOTE: this is reversed because abort core dumps and doesn't exit with
 # 0 which means that it should fail
 [ AC_DEFINE(ABORT_OKAY, 0) AC_MSG_RESULT([no]) ],
@@ -456,7 +456,7 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 #
 AC_CHECK_FUNCS(getenv)
 AC_MSG_CHECKING([getenv safe])
-AC_RUN_IFELSE([[
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
 static char heap_mem[102400], *heap_p = heap_mem;
 free (char *pnt) {
 }
@@ -487,7 +487,7 @@ char *realloc (char *old_pnt, int new_size) {
   return start;
 }
 main() { malloc(10); _exit(0); }
-]],
+]])],
 [ AC_DEFINE(GETENV_SAFE, 1)
   AC_MSG_RESULT([yes])
   getenv_safe=yes ],
@@ -515,7 +515,7 @@ AC_CHECK_HEADER([w32api/winbase.h],
 # include <w32api/windef.h>
 #endif]])
 AC_MSG_CHECKING([for GetEnvironmentVariableA])
-AC_RUN_IFELSE([[
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #if HAVE_SYS_CYGWIN_H
 # include <sys/cygwin.h>
 #endif
@@ -532,7 +532,7 @@ main() {
   char env_buf[256];
   GetEnvironmentVariableA("PATH", env_buf, sizeof(env_buf));
 }
-]],
+]])],
 [ AC_DEFINE(HAVE_GETENVIRONMENTVARIABLEA, 1)
   AC_MSG_RESULT([yes])
   have_getenvironmentvariablea=yes ],
@@ -559,12 +559,12 @@ fi
 # check for constructor attribute support
 #
 AC_MSG_CHECKING([constructor attribute])
-AC_RUN_IFELSE([[
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
 /* if we call the loc_con constructor then exit with error code 0 */
 static void loc_con() __attribute__((constructor));
 static void loc_con() { exit(0); }
 int main() { exit(1); }
-]],
+]])],
 [ AC_DEFINE(CONSTRUCTOR_WORKS, 1) AC_MSG_RESULT([yes]) ],
 [ AC_DEFINE(CONSTRUCTOR_WORKS, 0) AC_MSG_RESULT([no]) ],
 [ AC_DEFINE(CONSTRUCTOR_WORKS, 1) AC_MSG_RESULT([yes]) ]
@@ -574,12 +574,12 @@ int main() { exit(1); }
 # check for destructor attribute support
 #
 AC_MSG_CHECKING([destructor attribute])
-AC_RUN_IFELSE([[
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
 /* if we call the loc_decon destructor then exit with error code 0 */
 static void loc_decon() __attribute__((destructor));
 static void loc_decon() { exit(0); }
 int main() { return 1; }
-]],
+]])],
 [ AC_DEFINE(DESTRUCTOR_WORKS, 1)
   AC_MSG_RESULT([yes])
   destructor_works=yes ],
@@ -597,7 +597,7 @@ int main() { return 1; }
 # check if the return.h macros work
 #
 AC_MSG_CHECKING([return.h macros work])
-AC_RUN_IFELSE([
+AC_RUN_IFELSE([AC_LANG_SOURCE([[
 
 #define __CONF_H__
 #define USE_RETURN_MACROS 1
@@ -616,7 +616,7 @@ main()
   foo();
   exit(0);
 }
-],
+]])],
 [ AC_DEFINE(RETURN_MACROS_WORK, 1) AC_MSG_RESULT([yes]) ],
 [ AC_DEFINE(RETURN_MACROS_WORK, 0) AC_MSG_RESULT([no]) ],
 [ AC_DEFINE(RETURN_MACROS_WORK, 0) AC_MSG_RESULT([no]) ]
@@ -628,10 +628,10 @@ main()
 # check to see if ident workds
 #
 AC_MSG_CHECKING([if ident works])
-AC_COMPILE_IFELSE([
+AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
 #ident "$Id: configure.ac,v 1.37 2007/05/14 17:23:37 gray Exp $"
 static void foo (void) { }
-],
+]])],
 [AC_DEFINE(IDENT_WORKS, 1) AC_MSG_RESULT([yes])],
 [AC_DEFINE(IDENT_WORKS, 0) AC_MSG_RESULT([no])]
 )
