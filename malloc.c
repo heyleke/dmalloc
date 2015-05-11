@@ -27,6 +27,11 @@
  * chunk.c which is the real heap manager.
  */
 
+#define _GNU_SOURCE /*for TEMP_FAILURE_RETRY*/
+#if HAVE_ERRNO_H
+# include <errno.h>				/* the errno for TEMP_FAILURE...*/
+#endif
+
 #include <stdio.h>				/* for sprintf sometimes */
 #if HAVE_STDLIB_H
 # include <stdlib.h>				/* for atexit */
@@ -819,7 +824,7 @@ DMALLOC_PNT	dmalloc_malloc(const char *file, const int line,
 		       size,
 		       _dmalloc_chunk_desc_pnt(desc, sizeof(desc),
 					       file, line));
-    (void)write(STDERR, mess, strlen(mess));
+    TEMP_FAILURE_RETRY(write(STDERR, mess, strlen(mess)));
     _exit(1);
   }
   
@@ -991,7 +996,7 @@ DMALLOC_PNT	dmalloc_realloc(const char *file, const int line,
 		       "Out of memory while reallocating %d bytes from '%s'\n",
 		       new_size, _dmalloc_chunk_desc_pnt(desc, sizeof(desc),
 							 file, line));
-    (void)write(STDERR, mess, strlen(mess));
+    TEMP_FAILURE_RETRY(write(STDERR, mess, strlen(mess)));
     _exit(1);
   }
   

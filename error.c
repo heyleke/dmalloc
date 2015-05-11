@@ -26,6 +26,11 @@
  * produced by the library.
  */
 
+#define _GNU_SOURCE /*for TEMP_FAILURE_RETRY*/
+#if HAVE_ERRNO_H
+# include <errno.h>				/* the errno for TEMP_FAILURE...*/
+#endif
+
 #include <fcntl.h>				/* for O_WRONLY, etc. */
 #include <stdio.h>
 
@@ -235,7 +240,7 @@ static	void	build_logfile_path(char *buf, const int buf_len)
     len = loc_snprintf(error_str, sizeof(error_str),
 		       "debug-malloc library: logfile path too large '%s'\r\n",
 		       dmalloc_logpath);
-    (void)write(STDERR, error_str, len);
+    TEMP_FAILURE_RETRY(write(STDERR, error_str, len));
   }
   
   *buf_p = '\0';
@@ -277,7 +282,7 @@ void	_dmalloc_open_log(void)
     len = loc_snprintf(error_str, sizeof(error_str),
 		       "debug-malloc library: could not open '%s'\r\n",
 		       log_path);
-    (void)write(STDERR, error_str, len);
+    TEMP_FAILURE_RETRY(write(STDERR, error_str, len));
     /* disable log_path */
     dmalloc_logpath = NULL;
     return;
@@ -593,12 +598,12 @@ void	_dmalloc_vmessage(const char *format, va_list args)
   
   /* do we need to write the message to the logfile */
   if (dmalloc_logpath != NULL) {
-    (void)write(outfile_fd, message_str, len);
+    TEMP_FAILURE_RETRY(write(outfile_fd, message_str, len));
   }
   
   /* do we need to print the message? */
   if (BIT_IS_SET(_dmalloc_flags, DEBUG_PRINT_MESSAGES)) {
-    (void)write(STDERR, message_str, len);
+    TEMP_FAILURE_RETRY(write(STDERR, message_str, len));
   }
 }
 
@@ -634,12 +639,12 @@ void	_dmalloc_die(const int silent_b)
     len = loc_snprintf(error_str, sizeof(error_str),
 		       "debug-malloc library: %s program, fatal error\r\n",
 		       stop_str);
-    (void)write(STDERR, error_str, len);
+    TEMP_FAILURE_RETRY(write(STDERR, error_str, len));
     if (dmalloc_errno != ERROR_NONE) {
       len = loc_snprintf(error_str, sizeof(error_str),
 			 "   Error: %s (err %d)\r\n",
 			 dmalloc_strerror(dmalloc_errno), dmalloc_errno);
-      (void)write(STDERR, error_str, len);
+      TEMP_FAILURE_RETRY(write(STDERR, error_str, len));
     }
   }
   

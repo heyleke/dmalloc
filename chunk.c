@@ -792,7 +792,7 @@ static unsigned int get_align_overhead(unsigned int align,int fence_b)
 /*just tests if the remainder is zero*/
 static int is_aligned_to(char * p, unsigned int alignment)
 {
-	return 0==(((unsigned int)p)%alignment);//alignment must not be zero
+	return 0==(((size_t)p)%alignment);//alignment must not be zero
 }
 
 /*advance the pointer bytewise until it is aligned. returns result*/

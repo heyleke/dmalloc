@@ -26,6 +26,10 @@
  * heap as well as reporting the current position of the heap.
  */
 
+#define _GNU_SOURCE /*for TEMP_FAILURE_RETRY*/
+#if HAVE_ERRNO_H
+# include <errno.h>				/* the errno for TEMP_FAILURE...*/
+#endif
 #if HAVE_UNISTD_H
 # include <unistd.h>				/* for write */
 #endif
@@ -117,7 +121,7 @@ static	void	*heap_extend(const int incr)
       int	len;
       len = loc_snprintf(str, sizeof(str),
 			 "\r\ndmalloc: critical error: could not extend heap %u more bytes\r\n", incr);
-      (void)write(STDERR, str, len);
+      TEMP_FAILURE_RETRY(write(STDERR, str, len));
       _dmalloc_die(0);
     }
     dmalloc_errno = ERROR_ALLOC_FAILED;

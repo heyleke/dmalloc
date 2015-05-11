@@ -21,9 +21,9 @@
 
 static	void	_XtAllocError(const char *name)
 {
-  (void)write(STDERR, "Xt Error: ", 10);
-  (void)write(STDERR, name, strlen(name));
-  (void)write(STDERR, "\n", 1);
+  TEMP_FAILURE_RETRY(write(STDERR, "Xt Error: ", 10));
+  TEMP_FAILURE_RETRY(write(STDERR, name, strlen(name)));
+  TEMP_FAILURE_RETRY(write(STDERR, "\n", 1));
   exit(1);
 }
 

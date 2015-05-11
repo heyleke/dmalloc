@@ -183,7 +183,7 @@ static	void	free_slot(const int iter_c, pnt_info_t *slot_p,
   pnt_info_t	*this_p, *prev_p;
   
   if (verbose_b) {
-    (void)printf("%d: free'd %d bytes from slot %d (%#lx)\n",
+    (void)printf("%d: free'd %d bytes from slot %td (%#lx)\n",
 		 iter_c + 1, slot_p->pi_size, slot_p - pointer_grid,
 		 (long)slot_p->pi_pnt);
   }
@@ -291,7 +291,7 @@ static	int	do_random(const int iter_n)
       free_c++;
       
       if (verbose_b) {
-	(void)printf("%d: free'd %d bytes from slot %d (%#lx)\n",
+	(void)printf("%d: free'd %d bytes from slot %td (%#lx)\n",
 		     iter_c + 1, pnt_p->pi_size, pnt_p - pointer_grid,
 		     (long)pnt_p->pi_pnt);
       }
@@ -326,7 +326,7 @@ static	int	do_random(const int iter_n)
       pnt_p->pi_pnt = malloc(amount);
       
       if (verbose_b) {
-	(void)printf("%d: malloc %d of max %d into slot %d.  got %#lx\n",
+	(void)printf("%d: malloc %d of max %d into slot %td.  got %#lx\n",
 		     iter_c + 1, amount, max_avail, pnt_p - pointer_grid,
 		     (long)pnt_p->pi_pnt);
       }
@@ -338,7 +338,7 @@ static	int	do_random(const int iter_n)
       pnt_p->pi_pnt = calloc(amount, sizeof(char));
       
       if (verbose_b) {
-	(void)printf("%d: calloc %d of max %d into slot %d.  got %#lx\n",
+	(void)printf("%d: calloc %d of max %d into slot %td.  got %#lx\n",
 		     iter_c + 1, amount, max_avail, pnt_p - pointer_grid,
 		     (long)pnt_p->pi_pnt);
       }
@@ -378,7 +378,7 @@ static	int	do_random(const int iter_n)
       max_avail += pnt_p->pi_size;
       
       if (verbose_b) {
-	(void)printf("%d: realloc %d from %d of max %d slot %d.  got %#lx\n",
+	(void)printf("%d: realloc %d from %d of max %d slot %td.  got %#lx\n",
 		     iter_c + 1, amount, pnt_p->pi_size, max_avail,
 		     pnt_p - pointer_grid, (long)pnt_p->pi_pnt);
       }
@@ -410,7 +410,7 @@ static	int	do_random(const int iter_n)
       max_avail += pnt_p->pi_size;
       
       if (verbose_b) {
-	(void)printf("%d: recalloc %d from %d of max %d slot %d.  got %#lx\n",
+	(void)printf("%d: recalloc %d from %d of max %d slot %td.  got %#lx\n",
 		     iter_c + 1, amount, pnt_p->pi_size, max_avail,
 		     pnt_p - pointer_grid, (long)pnt_p->pi_pnt);
       }
@@ -444,7 +444,7 @@ static	int	do_random(const int iter_n)
       pnt_p->pi_pnt = valloc(amount);
       
       if (verbose_b) {
-	(void)printf("%d: valloc %d of max %d into slot %d.  got %#lx\n",
+	(void)printf("%d: valloc %d of max %d into slot %td.  got %#lx\n",
 		     iter_c + 1, amount, max_avail, pnt_p - pointer_grid,
 		     (long)pnt_p->pi_pnt);
       }
@@ -498,7 +498,7 @@ static	int	do_random(const int iter_n)
 	
 	if (verbose_b) {
 	  /* the amount includes the \0 */
-	  (void)printf("%d: strdup %d of max %d into slot %d.  got %#lx\n",
+	  (void)printf("%d: strdup %d of max %d into slot %td.  got %#lx\n",
 		       iter_c + 1, amount + 1, max_avail, pnt_p - pointer_grid,
 		       (long)pnt_p->pi_pnt);
 	}
@@ -518,7 +518,7 @@ static	int	do_random(const int iter_n)
 	pnt_p->pi_pnt = strndup(str, amount);
 	
 	if (verbose_b) {
-	  (void)printf("%d: strdup %d of max %d into slot %d.  got %#lx\n",
+	  (void)printf("%d: strdup %d of max %d into slot %td.  got %#lx\n",
 		       iter_c + 1, amount, max_avail, pnt_p - pointer_grid,
 		       (long)pnt_p->pi_pnt);
 	}
@@ -3277,7 +3277,7 @@ static	int	check_special(void)
     
     else if (user_size != (SIZE_ARG) * (COUNT_ARG)) {
       if (! silent_b) {
-	(void)printf("   ERROR: calloc size should be %d but was %d.\n",
+	(void)printf("   ERROR: calloc size should be %d but was %zu.\n",
 		     (SIZE_ARG) * (COUNT_ARG), user_size);
       }
       final = 0;
@@ -3926,46 +3926,46 @@ static	void	track_alloc_trxn(const char *file, const unsigned int line,
   
   switch (func_id) {
   case DMALLOC_FUNC_MALLOC:
-    (void)printf("%s malloc %d bytes got %#lx\n",
+    (void)printf("%s malloc %zu bytes got %#lx\n",
 		 file_line, byte_size, (long)new_addr);
     break;
   case DMALLOC_FUNC_CALLOC:
-    (void)printf("%s calloc %d bytes got %#lx\n",
+    (void)printf("%s calloc %zu bytes got %#lx\n",
 		 file_line, byte_size, (long)new_addr);
     break;
   case DMALLOC_FUNC_REALLOC:
-    (void)printf("%s realloc %d bytes from %#lx got %#lx\n",
+    (void)printf("%s realloc %zu bytes from %#lx got %#lx\n",
 		 file_line, byte_size, (long)old_addr, (long)new_addr);
     break;
   case DMALLOC_FUNC_RECALLOC:
-    (void)printf("%s recalloc %d bytes from %#lx got %#lx\n",
+    (void)printf("%s recalloc %zu bytes from %#lx got %#lx\n",
 		 file_line, byte_size, (long)old_addr, (long)new_addr);
     break;
   case DMALLOC_FUNC_MEMALIGN:
-    (void)printf("%s memalign %d bytes alignment %d got %#lx\n",
+    (void)printf("%s memalign %zu bytes alignment %zu got %#lx\n",
 		 file_line, byte_size, alignment, (long)new_addr);
     break;
   case DMALLOC_FUNC_POSIX_MEMALIGN:
-    (void)printf("%s posix_memalign %d bytes alignment %d got %#lx\n",
+    (void)printf("%s posix_memalign %zu bytes alignment %zu got %#lx\n",
 		 file_line, byte_size, alignment, (long)new_addr);
     break;
   case DMALLOC_FUNC_VALLOC:
-    (void)printf("%s valloc %d bytes alignment %d got %#lx\n",
+    (void)printf("%s valloc %zu bytes alignment %zu got %#lx\n",
 		 file_line, byte_size, alignment, (long)new_addr);
     break;
   case DMALLOC_FUNC_STRDUP:
-    (void)printf("%s strdup %d bytes ot %#lx\n",
+    (void)printf("%s strdup %zu bytes ot %#lx\n",
 		 file_line, byte_size, (long)new_addr);
     break;
   case DMALLOC_FUNC_FREE:
     (void)printf("%s free %#lx\n", file_line, (long)old_addr);
     break;
   case DMALLOC_FUNC_NEW:
-    (void)printf("%s new %d bytes got %#lx\n",
+    (void)printf("%s new %zu bytes got %#lx\n",
 		 file_line, byte_size, (long)new_addr);
     break;
   case DMALLOC_FUNC_NEW_ARRAY:
-    (void)printf("%s new[] %d bytes got %#lx\n",
+    (void)printf("%s new[] %zu bytes got %#lx\n",
 		 file_line, byte_size, (long)new_addr);
     break;
   case DMALLOC_FUNC_DELETE:
@@ -3975,7 +3975,7 @@ static	void	track_alloc_trxn(const char *file, const unsigned int line,
     (void)printf("%s delete[] %#lx\n", file_line, (long)old_addr);
     break;
   default:
-    (void)printf("%s unknown function %d bytes, %d alignment, %#lx old-addr "
+    (void)printf("%s unknown function %zu bytes, %zu alignment, %#lx old-addr "
 		 "%#lx new-addr\n",
 		 file_line, byte_size, alignment, (long)old_addr,
 		 (long)new_addr);
