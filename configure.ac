@@ -141,7 +141,7 @@ AC_COMPILE_IFELSE([AC_LANG_SOURCE([[ int foo(int val) { return val + 1; } ]])],[
 	# username terry_teague at domain users.sourceforge.net
 	ac_cv_shared_lib_link_objs=no
 	if test `uname` = "Darwin"; then
-          if (ld -dylib -o conftest.so.t -lc conftest.a) 2>&5; then
+          if (${LD-ld} -dylib -o conftest.so.t -lc conftest.a) 2>&5; then
             # By convention on some platforms
             # libLLL.so, libLLL.X.so are symlinks to libLLL.X.Y.Z.so
             # where X.Y.Z is version # (major.minor.increment) of the library
@@ -159,12 +159,12 @@ AC_COMPILE_IFELSE([AC_LANG_SOURCE([[ int foo(int val) { return val + 1; } ]])],[
             ac_cv_shared_link_args='# Could not configure shlib linking'
             enable_shlib=no
           fi
-       elif (ld -shared --whole-archive -soname conftest.so -o conftest.so.t conftest.a) 2>&5; then
-		ac_cv_shared_link_args='ld -shared --whole-archive -soname $@ -o $@.t'
-	elif (ld -shared -o conftest.so.t -all -soname conftest.so.t -none -lc -all conftest.a) 2>&5; then
-		ac_cv_shared_link_args='ld -shared -o $@.t -all -soname $@ -none -lc -all'
-	elif (ld -G -o conftest.so.t conftest.a) 2>&5; then
-		ac_cv_shared_link_args='ld -G -o $@.t'
+       elif (${CC-gcc} -shared -Wl,--whole-archive -Wl,-soname,conftest.so -o conftest.so.t conftest.a -nostdlib -v) 2>&5; then
+		ac_cv_shared_link_args="${CC-gcc}"' -shared -Wl,--whole-archive -Wl,-soname,$@ -o $@.t -nostdlib'
+	elif (${CC-gcc} -shared -o conftest.so.t -all -soname conftest.so.t -none -lc -all conftest.a) 2>&5; then
+		ac_cv_shared_link_args="${CC-gcc}"' -shared -o $@.t -all -Wl,-soname,$@ -none -lc -all'
+	elif (${LD-ld} -G -o conftest.so.t conftest.a) 2>&5; then
+		ac_cv_shared_link_args="${LD-ld}"' -G -o $@.t'
 	else
 		# oh well, toss an error
 		ac_cv_shared_link_args='# Could not configure shlib linking'
