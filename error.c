@@ -25,6 +25,8 @@
  * This file contains the routines needed for processing error codes
  * produced by the library.
  */
+#include "conf.h"				/* up here for _INCLUDE */
+#include "settings.h"
 
 #define _GNU_SOURCE /*for TEMP_FAILURE_RETRY*/
 #if HAVE_ERRNO_H
@@ -44,7 +46,6 @@
 # include <unistd.h>				/* for write */
 #endif
 
-#include "conf.h"				/* up here for _INCLUDE */
 
 /* for KILL_PROCESS define */
 #if USE_ABORT == 0
