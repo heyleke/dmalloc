@@ -74,26 +74,26 @@ AC_C_CONST
 # we need this for various settings
 AC_HEADER_STDC
 AC_CHECK_HEADER([stdarg.h],
-		[AC_DEFINE(HAVE_STDARG_H,1) AC_SUBST([HAVE_STDARG_H],1)],
-		[AC_DEFINE(HAVE_STDARG_H,0) AC_SUBST([HAVE_STDARG_H],0)])
+		[AC_DEFINE(HAVE_STDARG_H,1, [Define if stdarg available and compiles]) AC_SUBST([HAVE_STDARG_H],1)],
+		[AC_DEFINE(HAVE_STDARG_H,0, [Define if stdarg available and compiles]) AC_SUBST([HAVE_STDARG_H],0)])
 AC_CHECK_HEADER([stdlib.h],
-		[AC_DEFINE(HAVE_STDLIB_H,1) AC_SUBST([HAVE_STDLIB_H],1)],
-		[AC_DEFINE(HAVE_STDLIB_H,0) AC_SUBST([HAVE_STDLIB_H],0)])
+		[AC_DEFINE(HAVE_STDLIB_H,1, [Define if stdlib available and compiles]) AC_SUBST([HAVE_STDLIB_H],1)],
+		[AC_DEFINE(HAVE_STDLIB_H,0, [Define if stdlib available and compiles]) AC_SUBST([HAVE_STDLIB_H],0)])
 AC_CHECK_HEADER([string.h],
-		[AC_DEFINE(HAVE_STRING_H,1) AC_SUBST([HAVE_STRING_H],1)],
-		[AC_DEFINE(HAVE_STRING_H,0) AC_SUBST([HAVE_STRING_H],0)])
+		[AC_DEFINE(HAVE_STRING_H,1, [Define if string available and compiles]) AC_SUBST([HAVE_STRING_H],1)],
+		[AC_DEFINE(HAVE_STRING_H,0, [Define if string available and compiles]) AC_SUBST([HAVE_STRING_H],0)])
 AC_CHECK_HEADER([unistd.h],
-		[AC_DEFINE(HAVE_UNISTD_H,1) AC_SUBST([HAVE_UNISTD_H],1)],
-		[AC_DEFINE(HAVE_UNISTD_H,0) AC_SUBST([HAVE_UNISTD_H],0)])
+		[AC_DEFINE(HAVE_UNISTD_H,1, [Define if unistd available and compiles]) AC_SUBST([HAVE_UNISTD_H],1)],
+		[AC_DEFINE(HAVE_UNISTD_H,0, [Define if unistd available and compiles]) AC_SUBST([HAVE_UNISTD_H],0)])
 AC_CHECK_HEADER([errno.h],
-		[AC_DEFINE(HAVE_ERRNO_H,1) AC_SUBST([HAVE_ERRNO_H],1)],
-		[AC_DEFINE(HAVE_ERRNO_H,0) AC_SUBST([HAVE_ERRNO_H],0)])
+		[AC_DEFINE(HAVE_ERRNO_H,1, [Define if errno available and compiles]) AC_SUBST([HAVE_ERRNO_H],1)],
+		[AC_DEFINE(HAVE_ERRNO_H,0, [Define if errno available and compiles]) AC_SUBST([HAVE_ERRNO_H],0)])
 AC_CHECK_HEADER([sys/types.h],
-		[AC_DEFINE(HAVE_SYS_TYPES_H,1) AC_SUBST([HAVE_SYS_TYPES_H],1)],
-		[AC_DEFINE(HAVE_SYS_TYPES_H,0) AC_SUBST([HAVE_SYS_TYPES_H],0)])
+		[AC_DEFINE(HAVE_SYS_TYPES_H,1, [Define if sys/types available and compiles]) AC_SUBST([HAVE_SYS_TYPES_H],1)],
+		[AC_DEFINE(HAVE_SYS_TYPES_H,0, [Define if sys/types available and compiles]) AC_SUBST([HAVE_SYS_TYPES_H],0)])
 AC_CHECK_HEADER([sys/mman.h],
-		[AC_DEFINE(HAVE_SYS_MMAN_H,1) AC_SUBST([HAVE_SYS_MMAN_H],1)],
-		[AC_DEFINE(HAVE_SYS_MMAN_H,0) AC_SUBST([HAVE_SYS_MMAN_H],0)])
+		[AC_DEFINE(HAVE_SYS_MMAN_H,1, [Define if sys/mman available and compiles]) AC_SUBST([HAVE_SYS_MMAN_H],1)],
+		[AC_DEFINE(HAVE_SYS_MMAN_H,0, [Define if sys/mman available and compiles]) AC_SUBST([HAVE_SYS_MMAN_H],0)])
 
 ###############################################################################
 # shared library handling
@@ -239,9 +239,9 @@ fi
 #
 AC_TYPE_SIZE_T
 if test "$ac_cv_type_size_t" = "yes"; then
-	AC_DEFINE(DMALLOC_SIZE,size_t)
+	AC_DEFINE(DMALLOC_SIZE,size_t, [dmalloc_size])
 else
-	AC_DEFINE(DMALLOC_SIZE,unsigned long)
+	AC_DEFINE(DMALLOC_SIZE,unsigned long, [dmalloc_size])
 fi
 
 #
@@ -257,9 +257,9 @@ AC_RUN_IFELSE([AC_LANG_SOURCE([[
 #endif
 main() { DMALLOC_SIZE x = -1; if (x >= 0) exit(0); else exit(1); }
 ]])],
-[AC_DEFINE(DMALLOC_SIZE_UNSIGNED,1)  AC_MSG_RESULT([yes])],
-[AC_DEFINE(DMALLOC_SIZE_UNSIGNED,0)  AC_MSG_RESULT([no])],
-[AC_DEFINE(DMALLOC_SIZE_UNSIGNED,0)  AC_MSG_RESULT([no])]
+[AC_DEFINE(DMALLOC_SIZE_UNSIGNED,1, [dmalloc_size])  AC_MSG_RESULT([yes])],
+[AC_DEFINE(DMALLOC_SIZE_UNSIGNED,0, [dmalloc_size])  AC_MSG_RESULT([no])],
+[AC_DEFINE(DMALLOC_SIZE_UNSIGNED,0, [dmalloc_size])  AC_MSG_RESULT([no])]
 )
 
 #
@@ -299,8 +299,8 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[
   int prot = PROT_NONE | PROT_READ | PROT_WRITE;
   (void)mprotect(0, 0, prot);
 ]])],
-[ AC_DEFINE(PROTECT_ALLOWED,1) AC_MSG_RESULT([yes]) ],
-[ AC_DEFINE(PROTECT_ALLOWED,0) AC_MSG_RESULT([no]) ]
+[ AC_DEFINE(PROTECT_ALLOWED,1, [PROTECT_ALLOWED]) AC_MSG_RESULT([yes]) ],
+[ AC_DEFINE(PROTECT_ALLOWED,0, [PROTECT_ALLOWED]) AC_MSG_RESULT([no]) ]
 )
 
 ##############################################################################
@@ -340,9 +340,9 @@ main() {
   exit(0);
 }
 ]])],
-[ AC_DEFINE(USE_MMAP, 1) ac_cv_use_mmap=yes],
-[ AC_DEFINE(USE_MMAP, 0) ac_cv_use_mmap=no],
-[ AC_DEFINE(USE_MMAP, 0) ac_cv_use_mmap=no]
+[ AC_DEFINE(USE_MMAP, 1, [USE_MMAP]) ac_cv_use_mmap=yes],
+[ AC_DEFINE(USE_MMAP, 0, [USE_MMAP]) ac_cv_use_mmap=no],
+[ AC_DEFINE(USE_MMAP, 0, [USE_MMAP]) ac_cv_use_mmap=no]
 )
 AC_MSG_RESULT([$ac_cv_use_mmap])
 
@@ -371,7 +371,7 @@ fi
 if test $ac_cv_page_size = 0; then
     ac_cv_page_size=15
 fi
-AC_DEFINE_UNQUOTED([BASIC_BLOCK],[$ac_cv_page_size])
+AC_DEFINE_UNQUOTED([BASIC_BLOCK],[$ac_cv_page_size], [BASIC_BLOCK])
 AC_MSG_RESULT([$ac_cv_page_size])
 
 #
@@ -385,7 +385,7 @@ if test $ac_cv_sizeof_long = 4; then
 else
 	ac_cv_data_align=$ac_cv_sizeof_long
 fi
-AC_DEFINE_UNQUOTED([ALLOCATION_ALIGNMENT],[$ac_cv_data_align])
+AC_DEFINE_UNQUOTED([ALLOCATION_ALIGNMENT],[$ac_cv_data_align], [ALLOCATION_ALIGNMENT])
 AC_MSG_RESULT([$ac_cv_data_align])
 
 #
@@ -427,17 +427,17 @@ main() { main_b = 1; abort(); _exit(1); }
 ]])],
 # NOTE: this is reversed because abort core dumps and doesn't exit with
 # 0 which means that it should fail
-[ AC_DEFINE(ABORT_OKAY, 0) AC_MSG_RESULT([no]) ],
+[ AC_DEFINE(ABORT_OKAY, 0, 'ABORT_OKAY') AC_MSG_RESULT([no]) ],
 # if it succeeds then something called free on the way out
-[ AC_DEFINE(ABORT_OKAY, 1) AC_MSG_RESULT([yes]) ],
-[ AC_DEFINE(ABORT_OKAY, 0) AC_MSG_RESULT([no]) ]
+[ AC_DEFINE(ABORT_OKAY, 1, 'ABORT_OKAY') AC_MSG_RESULT([yes]) ],
+[ AC_DEFINE(ABORT_OKAY, 0, 'ABORT_OKAY') AC_MSG_RESULT([no]) ]
 )
 
 AC_TYPE_SIGNAL
 AC_MSG_CHECKING([signal works])
 AC_CHECK_HEADER([signal.h],
-		[AC_DEFINE(HAVE_SIGNAL_H,1) AC_SUBST([HAVE_SIGNAL_H],1)],
-		[AC_DEFINE(HAVE_SIGNAL_H,0) AC_SUBST([HAVE_SIGNAL_H],0)])
+		[AC_DEFINE(HAVE_SIGNAL_H,1, 'HAVE_SIGNAL_H') AC_SUBST([HAVE_SIGNAL_H],1)],
+		[AC_DEFINE(HAVE_SIGNAL_H,0, 'HAVE_SIGNAL_H') AC_SUBST([HAVE_SIGNAL_H],0)])
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 #if HAVE_SIGNAL_H
   #include <signal.h>
@@ -447,8 +447,8 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 	(void)signal(SIGINT, SIG_IGN);
 	(void)signal(SIGTERM, SIG_IGN);
 ]])],
-[ AC_DEFINE(SIGNAL_OKAY, 1) AC_MSG_RESULT([yes]) ],
-[ AC_DEFINE(SIGNAL_OKAY, 0) AC_MSG_RESULT([no]) ]
+[ AC_DEFINE(SIGNAL_OKAY, 1, 'SIGNAL_OKAY') AC_MSG_RESULT([yes]) ],
+[ AC_DEFINE(SIGNAL_OKAY, 0, 'SIGNAL_OKAY') AC_MSG_RESULT([no]) ]
 )
 
 #
@@ -488,28 +488,28 @@ char *realloc (char *old_pnt, int new_size) {
 }
 main() { malloc(10); _exit(0); }
 ]])],
-[ AC_DEFINE(GETENV_SAFE, 1)
+[ AC_DEFINE(GETENV_SAFE, 1, 'GETENV_SAFE')
   AC_MSG_RESULT([yes])
   getenv_safe=yes ],
 # if it succeeds then something called free on the way out
-[ AC_DEFINE(GETENV_SAFE, 0)
+[ AC_DEFINE(GETENV_SAFE, 0, 'GETENV_SAFE')
   AC_MSG_RESULT([no])
   getenv_safe=no ],
-[ AC_DEFINE(GETENV_SAFE, 1)
+[ AC_DEFINE(GETENV_SAFE, 1, 'GETENV_SAFE')
   AC_MSG_RESULT([yes])
   getenv_safe=yes ]
 )
 
 # now check to see if we can replace getenv with GetEnvironmentVariableA
 AC_CHECK_HEADER([sys/cygwin.h],
-		[AC_DEFINE(HAVE_SYS_CYGWIN_H,1) AC_SUBST([HAVE_SYS_CYGWIN_H],1)],
-		[AC_DEFINE(HAVE_SYS_CYGWIN_H,0) AC_SUBST([HAVE_SYS_CYGWIN_H],0)])
+		[AC_DEFINE(HAVE_SYS_CYGWIN_H,1, 'HAVE_SYS_CYGWIN_H') AC_SUBST([HAVE_SYS_CYGWIN_H],1)],
+		[AC_DEFINE(HAVE_SYS_CYGWIN_H,0, 'HAVE_SYS_CYGWIN_H') AC_SUBST([HAVE_SYS_CYGWIN_H],0)])
 AC_CHECK_HEADER([w32api/windef.h],
-		[AC_DEFINE(HAVE_W32API_WINDEF_H,1) AC_SUBST([HAVE_W32API_WINDEF_H],1)],
-		[AC_DEFINE(HAVE_W32API_WINDEF_H,0) AC_SUBST([HAVE_W32API_WINDEF_H],0)])
+		[AC_DEFINE(HAVE_W32API_WINDEF_H,1, 'HAVE_W32API_WINDEF_H') AC_SUBST([HAVE_W32API_WINDEF_H],1)],
+		[AC_DEFINE(HAVE_W32API_WINDEF_H,0, 'HAVE_W32API_WINDEF_H') AC_SUBST([HAVE_W32API_WINDEF_H],0)])
 AC_CHECK_HEADER([w32api/winbase.h],
-		[AC_DEFINE(HAVE_W32API_WINBASE_H,1) AC_SUBST([HAVE_W32API_WINBASE_H],1)],
-		[AC_DEFINE(HAVE_W32API_WINBASE_H,0) AC_SUBST([HAVE_W32API_WINBASE_H],0)],
+		[AC_DEFINE(HAVE_W32API_WINBASE_H,1, 'HAVE_W32API_WINBASE_H') AC_SUBST([HAVE_W32API_WINBASE_H],1)],
+		[AC_DEFINE(HAVE_W32API_WINBASE_H,0, 'HAVE_W32API_WINBASE_H') AC_SUBST([HAVE_W32API_WINBASE_H],0)],
 		[[
 #if HAVE_W32API_WINDEF_H
 # include <w32api/windef.h>
@@ -533,13 +533,13 @@ main() {
   GetEnvironmentVariableA("PATH", env_buf, sizeof(env_buf));
 }
 ]])],
-[ AC_DEFINE(HAVE_GETENVIRONMENTVARIABLEA, 1)
+[ AC_DEFINE(HAVE_GETENVIRONMENTVARIABLEA, 1, 'HAVE_GETENVIRONMENTVARIABLEA')
   AC_MSG_RESULT([yes])
   have_getenvironmentvariablea=yes ],
-[ AC_DEFINE(HAVE_GETENVIRONMENTVARIABLEA, 0)
+[ AC_DEFINE(HAVE_GETENVIRONMENTVARIABLEA, 0, 'HAVE_GETENVIRONMENTVARIABLEA')
   AC_MSG_RESULT([no])
   have_getenvironmentvariablea=no ],
-[ AC_DEFINE(HAVE_GETENVIRONMENTVARIABLEA, 1)
+[ AC_DEFINE(HAVE_GETENVIRONMENTVARIABLEA, 1, 'HAVE_GETENVIRONMENTVARIABLEA')
   AC_MSG_RESULT([yes])
   have_getenvironmentvariablea=yes ]
 )
@@ -565,9 +565,9 @@ static void loc_con() __attribute__((constructor));
 static void loc_con() { exit(0); }
 int main() { exit(1); }
 ]])],
-[ AC_DEFINE(CONSTRUCTOR_WORKS, 1) AC_MSG_RESULT([yes]) ],
-[ AC_DEFINE(CONSTRUCTOR_WORKS, 0) AC_MSG_RESULT([no]) ],
-[ AC_DEFINE(CONSTRUCTOR_WORKS, 1) AC_MSG_RESULT([yes]) ]
+[ AC_DEFINE(CONSTRUCTOR_WORKS, 1, 'CONSTRUCTOR_WORKS') AC_MSG_RESULT([yes]) ],
+[ AC_DEFINE(CONSTRUCTOR_WORKS, 0, 'CONSTRUCTOR_WORKS') AC_MSG_RESULT([no]) ],
+[ AC_DEFINE(CONSTRUCTOR_WORKS, 1, 'CONSTRUCTOR_WORKS') AC_MSG_RESULT([yes]) ]
 )
 
 #
@@ -580,13 +580,13 @@ static void loc_decon() __attribute__((destructor));
 static void loc_decon() { exit(0); }
 int main() { return 1; }
 ]])],
-[ AC_DEFINE(DESTRUCTOR_WORKS, 1)
+[ AC_DEFINE(DESTRUCTOR_WORKS, 1, 'DESTRUCTOR_WORKS')
   AC_MSG_RESULT([yes])
   destructor_works=yes ],
-[ AC_DEFINE(DESTRUCTOR_WORKS, 0)
+[ AC_DEFINE(DESTRUCTOR_WORKS, 0, 'DESTRUCTOR_WORKS')
   AC_MSG_RESULT([no])
   destructor_works=no ],
-[ AC_DEFINE(DESTRUCTOR_WORKS, 1)
+[ AC_DEFINE(DESTRUCTOR_WORKS, 1, 'DESTRUCTOR_WORKS')
   AC_MSG_RESULT([yes])
   destructor_works=yes ],
 )
@@ -617,9 +617,9 @@ main()
   exit(0);
 }
 ]])],
-[ AC_DEFINE(RETURN_MACROS_WORK, 1) AC_MSG_RESULT([yes]) ],
-[ AC_DEFINE(RETURN_MACROS_WORK, 0) AC_MSG_RESULT([no]) ],
-[ AC_DEFINE(RETURN_MACROS_WORK, 0) AC_MSG_RESULT([no]) ]
+[ AC_DEFINE(RETURN_MACROS_WORK, 1, 'RETURN_MACROS_WORK') AC_MSG_RESULT([yes]) ],
+[ AC_DEFINE(RETURN_MACROS_WORK, 0, 'RETURN_MACROS_WORK') AC_MSG_RESULT([no]) ],
+[ AC_DEFINE(RETURN_MACROS_WORK, 0, 'RETURN_MACROS_WORK') AC_MSG_RESULT([yes]) ]
 )
 
 ##############################################################################
@@ -632,8 +632,8 @@ AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
 #ident "$Id: configure.ac,v 1.37 2007/05/14 17:23:37 gray Exp $"
 static void foo (void) { }
 ]])],
-[AC_DEFINE(IDENT_WORKS, 1) AC_MSG_RESULT([yes])],
-[AC_DEFINE(IDENT_WORKS, 0) AC_MSG_RESULT([no])]
+[AC_DEFINE(IDENT_WORKS, 1, 'IDENT_WORKS') AC_MSG_RESULT([yes])],
+[AC_DEFINE(IDENT_WORKS, 0, 'IDENT_WORKS') AC_MSG_RESULT([no])]
 )
 
 ##############################################################################
@@ -643,11 +643,11 @@ XX_OLD_LIBS=$LIBS
 
 AC_SEARCH_LIBS(pthread_mutex_init, pthread pthreads c_r)
 AC_CHECK_HEADER([pthread.h],
-		[AC_DEFINE(HAVE_PTHREAD_H,1) AC_SUBST([HAVE_PTHREAD_H],1)],
-		[AC_DEFINE(HAVE_PTHREAD_H,0) AC_SUBST([HAVE_PTHREAD_H],0)])
+		[AC_DEFINE(HAVE_PTHREAD_H,1, 'HAVE_PTHREAD_H') AC_SUBST([HAVE_PTHREAD_H],1)],
+		[AC_DEFINE(HAVE_PTHREAD_H,0, 'HAVE_PTHREAD_H') AC_SUBST([HAVE_PTHREAD_H],0)])
 AC_CHECK_HEADER([pthreads.h],
-		[AC_DEFINE(HAVE_PTHREADS_H,1) AC_SUBST([HAVE_PTHREADS_H],1)],
-		[AC_DEFINE(HAVE_PTHREADS_H,0) AC_SUBST([HAVE_PTHREADS_H],0)])
+		[AC_DEFINE(HAVE_PTHREADS_H,1, 'HAVE_PTHREADS_H') AC_SUBST([HAVE_PTHREADS_H],1)],
+		[AC_DEFINE(HAVE_PTHREADS_H,0, 'HAVE_PTHREADS_H') AC_SUBST([HAVE_PTHREADS_H],0)])
 
 AC_CHECK_FUNCS(pthread_mutex_init pthread_mutex_lock pthread_mutex_unlock)
 
@@ -662,7 +662,7 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 ]],[[
    pthread_mutex_t dmalloc_mutex;
 ]])],
-[AC_DEFINE(THREAD_MUTEX_T,pthread_mutex_t) AC_MSG_RESULT([pthread_mutex_t])],
+[AC_DEFINE(THREAD_MUTEX_T,pthread_mutex_t, 'THREAD_MUTEX_T') AC_MSG_RESULT([pthread_mutex_t])],
 [AC_MSG_RESULT([unknown])]
 )
 
@@ -678,9 +678,9 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[
 	THREAD_MUTEX_T dmalloc_mutex;
 	pthread_mutex_init(&dmalloc_mutex, pthread_mutexattr_default);
 ]])],
-[AC_DEFINE(THREAD_LOCK_INIT_VAL,pthread_mutexattr_default)
+[AC_DEFINE(THREAD_LOCK_INIT_VAL,pthread_mutexattr_default, 'THREAD_LOCK_INIT_VAL')
  AC_MSG_RESULT([pthread_mutexattr_default])],
-[AC_DEFINE(THREAD_LOCK_INIT_VAL,0)
+[AC_DEFINE(THREAD_LOCK_INIT_VAL,0, 'THREAD_LOCK_INIT_VAL')
  AC_MSG_RESULT([0])]
 )
 
