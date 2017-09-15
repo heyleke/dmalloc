@@ -16,12 +16,11 @@
 # software described herein for any purpose.  It is provided "as is"
 # without express or implied warranty.
 #
-# The author may be contacted via http://dmalloc.com/
-#
 # $Id: configure.ac,v 1.37 2007/05/14 17:23:37 gray Exp $
 #
 AC_REVISION($Revision: 1.37 $)
-AC_INIT(dmalloc, 5.5.2, [http://dmalloc.com/])
+# The original author may be contacted via http://dmalloc.com/
+AC_INIT(dmalloc, 5.6.0, [https://github.com/heyleke/dmalloc/])
 AC_CONFIG_SRCDIR(dmalloc.c)
 AC_CONFIG_HEADER(conf.h)
 
