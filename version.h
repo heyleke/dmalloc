@@ -39,7 +39,7 @@
  *
  * Make sure to also cvs tag the release.  dmalloc_release_X_X_X
  */
-static	char	*dmalloc_version = "5.5.2" ;
+static	char	*dmalloc_version = "5.6.0" ;
 
 /* Version Date: $Date: 2007/05/14 17:23:37 $ */
 
